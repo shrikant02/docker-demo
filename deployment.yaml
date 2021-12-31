@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: eks-jenkins
+spec:
+        replicas: 2
+        selector:
+          matchlabels:
+            app: eks-jenkins
+        template:
+          metadata:
+            labels:
+              app: eks-jenkins
+          spec:
+            containers:
+            - name: springboot
+              image: my-image:1
+              ports:
+              - containerPort: 8080
+
+---
+apiVersion: v1
+kine: Service
+metadata:
+        name: eks-jenkins
+spec:
+        type: LoadBalancer
+        ports:
+        - port: 80
+          targetPort: 8082
+        selector:
+          app: eks-jenkins
